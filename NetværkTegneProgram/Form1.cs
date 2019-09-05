@@ -16,5 +16,10 @@ namespace NetværkTegneProgram
         {
             InitializeComponent();
         }
+
+        private void DrawBox_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
