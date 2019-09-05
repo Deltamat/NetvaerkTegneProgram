@@ -28,13 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.DrawBox = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.DrawBox)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // DrawBox
+            // 
+            this.DrawBox.Location = new System.Drawing.Point(12, 12);
+            this.DrawBox.Name = "DrawBox";
+            this.DrawBox.Size = new System.Drawing.Size(776, 426);
+            this.DrawBox.TabIndex = 0;
+            this.DrawBox.TabStop = false;
+            this.DrawBox.Click += new System.EventHandler(this.DrawBox_Click);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.DrawBox);
+            this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.DrawBox)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.PictureBox DrawBox;
     }
 }
 
