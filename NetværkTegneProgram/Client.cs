@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace NetværkTegneProgram
 {
-    public partial class Form1 : Form
+    public partial class Client : Form
     {
         private bool isMouseDown;
         Point originPoint = Point.Empty;
 
-        public Form1()
+        public Client()
         {
             InitializeComponent();
         }
