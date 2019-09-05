@@ -34,12 +34,15 @@
             // 
             // DrawBox
             // 
-            this.DrawBox.Location = new System.Drawing.Point(12, 12);
+            this.DrawBox.Location = new System.Drawing.Point(0, -1);
             this.DrawBox.Name = "DrawBox";
-            this.DrawBox.Size = new System.Drawing.Size(776, 426);
+            this.DrawBox.Size = new System.Drawing.Size(802, 450);
             this.DrawBox.TabIndex = 0;
             this.DrawBox.TabStop = false;
             this.DrawBox.Click += new System.EventHandler(this.DrawBox_Click);
+            this.DrawBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DrawBox_MouseDown);
+            this.DrawBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DrawBox_MouseMove);
+            this.DrawBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DrawBox_MouseUp);
             // 
             // Form1
             // 
