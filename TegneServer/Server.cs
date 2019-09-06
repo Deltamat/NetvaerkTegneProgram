@@ -18,6 +18,7 @@ namespace TegneServer
     {
         private static TcpListener server;
         private static bool isRunning;
+        public HashSet<StreamWriter> streamWriters = new HashSet<StreamWriter>();
 
         public Server()
         {
@@ -56,6 +57,7 @@ namespace TegneServer
             IPEndPoint localPoint = (IPEndPoint)client.Client.LocalEndPoint;
             bool clientConnected = true;
             string data;
+            streamWriters.Add(streamWriter);
 
             while (clientConnected)
             {
@@ -84,6 +86,14 @@ namespace TegneServer
             {
                 graphics.DrawLine(new Pen(Color.Black, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
             }
+            foreach (StreamWriter streamWriter in streamWriters)
+            {
+                string dataString = stringArray[0] + "." + stringArray[1] + "." + stringArray[2] + "." + stringArray[3];
+                streamWriter.WriteLine(dataString);
+                streamWriter.Flush();
+            }
         }
+
+
     }
 }

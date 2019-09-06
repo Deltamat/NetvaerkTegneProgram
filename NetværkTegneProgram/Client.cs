@@ -25,6 +25,7 @@ namespace NetværkTegneProgram
         public Client()
         {
             InitializeComponent();
+            DrawBox.Image = new Bitmap(DrawBox.Width, DrawBox.Height);
         }
 
         private void DrawBox_MouseDown(object sender, MouseEventArgs e)
@@ -55,12 +56,16 @@ namespace NetværkTegneProgram
             try
             {
                 Int32 port = 13000;
-                TcpClient client = new TcpClient();
+                client = new TcpClient();
                 client.Connect(IPAddress.Parse(IPTextBox.Text), port);
                 NetworkStream networkStream = client.GetStream();
                 streamWriter = new StreamWriter(networkStream, Encoding.ASCII);
                 streamReader = new StreamReader(networkStream, Encoding.ASCII);
-                
+
+                Thread t = new Thread(GetBitMap);
+                t.IsBackground = true;
+                t.Start();
+
                 ConnectButton.Visible = false;
                 ConnectButton.Enabled = false;
                 EnterIPLabel.Visible = false;
@@ -80,6 +85,31 @@ namespace NetværkTegneProgram
             streamWriter.WriteLine(sendString);
             Thread.Sleep(10);
             streamWriter.Flush();
+        }
+
+        private void GetBitMap()
+        {
+            try
+            {
+                string data = streamReader.ReadLine();
+                string[] stringArray = data.Split('.');
+
+                Delegate invoke = new Action(() => Draw(stringArray));
+
+                Invoke(invoke);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void Draw(object[] stringArray)
+        {
+            using (Graphics graphics = Graphics.FromImage(DrawBox.Image))
+            {
+                graphics.DrawLine(new Pen(Color.Black, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
+            }
         }
     }
 }
