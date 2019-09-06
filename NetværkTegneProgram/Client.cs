@@ -26,6 +26,7 @@ namespace NetværkTegneProgram
         {
             InitializeComponent();
             DrawBox.Image = new Bitmap(DrawBox.Width, DrawBox.Height);
+            
         }
 
         private void DrawBox_MouseDown(object sender, MouseEventArgs e)
@@ -56,7 +57,7 @@ namespace NetværkTegneProgram
             try
             {
                 Int32 port = 13000;
-                TcpClient client = new TcpClient();
+                client = new TcpClient();
                 if (IPTextBox.Text.ToLower() == "l" || IPTextBox.Text.ToLower() == "local")
                 {
                     IPTextBox.Text = "127.0.0.1";                    
@@ -89,24 +90,27 @@ namespace NetværkTegneProgram
         {
             string sendString = originX + "." + originY + "." + locationX + "." + locationY;
             streamWriter.WriteLine(sendString);
-            Thread.Sleep(10);
+            Thread.Sleep(1);
             streamWriter.Flush();
         }
 
         private void GetBitMap()
         {
-            try
+            while (true)
             {
-                string data = streamReader.ReadLine();
-                string[] stringArray = data.Split('.');
+                try
+                {
+                    string data = streamReader.ReadLine();
+                    string[] stringArray = data.Split('.');
+                    
+                    Delegate invoke = new Action(() => Draw(stringArray));
 
-                Delegate invoke = new Action(() => Draw(stringArray));
-
-                Invoke(invoke);
-            }
-            catch (Exception)
-            {
-                throw;
+                    Invoke(invoke);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
 
@@ -116,6 +120,7 @@ namespace NetværkTegneProgram
             {
                 graphics.DrawLine(new Pen(Color.Black, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
             }
+            DrawBox.Invalidate();
         }
     }
 }
