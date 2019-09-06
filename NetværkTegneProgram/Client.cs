@@ -7,7 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
 using System.Net.Sockets;
+using System.IO;
+using System.Threading;
 
 namespace NetværkTegneProgram
 {
@@ -15,6 +18,9 @@ namespace NetværkTegneProgram
     {
         private bool isMouseDown;
         Point originPoint = Point.Empty;
+        TcpClient client;
+        StreamWriter streamWriter;
+        StreamReader streamReader;
 
         public Client()
         {
@@ -31,16 +37,7 @@ namespace NetværkTegneProgram
         {
             if (isMouseDown == true && originPoint != null)
             {
-                if (DrawBox.Image == null)
-                {
-                    Bitmap bmp = new Bitmap(DrawBox.Width, DrawBox.Height);
-                    DrawBox.Image = bmp;
-                }
-
-                using (Graphics graphics = Graphics.FromImage(DrawBox.Image))
-                {
-                    graphics.DrawLine(new Pen(Color.Black, 1), originPoint, e.Location);
-                }
+                SendData(originPoint.X.ToString(), originPoint.Y.ToString(), e.Location.X.ToString(), e.Location.Y.ToString());
 
                 DrawBox.Invalidate();
                 originPoint = e.Location;
@@ -58,7 +55,12 @@ namespace NetværkTegneProgram
             try
             {
                 Int32 port = 13000;
-                TcpClient client = new TcpClient(IPTextBox.Text, port);
+                TcpClient client = new TcpClient();
+                client.Connect(IPAddress.Parse(IPTextBox.Text), port);
+                NetworkStream networkStream = client.GetStream();
+                streamWriter = new StreamWriter(networkStream, Encoding.ASCII);
+                streamReader = new StreamReader(networkStream, Encoding.ASCII);
+                
                 ConnectButton.Visible = false;
                 ConnectButton.Enabled = false;
                 EnterIPLabel.Visible = false;
@@ -70,6 +72,14 @@ namespace NetværkTegneProgram
             {
                 EnterIPLabel.Text = "Please enter a valid IP address";
             }
+        }
+
+        private void SendData(string originX, string originY, string locationX, string locationY)
+        {
+            string sendString = originX + "." + originY + "." + locationX + "." + locationY;
+            streamWriter.WriteLine(sendString);
+            Thread.Sleep(10);
+            streamWriter.Flush();
         }
     }
 }

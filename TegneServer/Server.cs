@@ -23,7 +23,7 @@ namespace TegneServer
         {
             InitializeComponent();
             TCPServer(13000);
-            
+            DrawBox.Image = new Bitmap(DrawBox.Width, DrawBox.Height);
         }
 
         private void TCPServer(int port)
@@ -31,7 +31,9 @@ namespace TegneServer
             server = new TcpListener(IPAddress.Any, port);
             server.Start();
             isRunning = true;
-            LoopClients();
+            Thread T = new Thread(LoopClients);
+            T.IsBackground = true;
+            T.Start();
         }
 
         private void LoopClients()
@@ -40,7 +42,8 @@ namespace TegneServer
             {
                 TcpClient client = server.AcceptTcpClient();
                 Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClient));
-                clientThread.Start();
+                clientThread.IsBackground = true;
+                clientThread.Start(client);
             }
         }
 
@@ -58,7 +61,6 @@ namespace TegneServer
             {
                 try
                 {
-
                     data = streamReader.ReadLine();
                     string[] stringArray = data.Split('.');
 
@@ -66,16 +68,13 @@ namespace TegneServer
                     {
                         graphics.DrawLine(new Pen(Color.Black, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
                     }
-
+                    DrawBox.Invalidate();
                 }
                 catch (Exception)
                 {
                     Thread.CurrentThread.Abort();
                 }
             }
-
-
         }
-
     }
 }
