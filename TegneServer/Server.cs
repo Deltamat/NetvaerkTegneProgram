@@ -64,16 +64,25 @@ namespace TegneServer
                     data = streamReader.ReadLine();
                     string[] stringArray = data.Split('.');
 
-                    using (Graphics graphics = Graphics.FromImage(DrawBox.Image))
-                    {
-                        graphics.DrawLine(new Pen(Color.Black, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
-                    }
+                    Delegate invoke = new Action(() => Draw(stringArray));
+
+                    Invoke(invoke);
+                        
+                    
                     DrawBox.Invalidate();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     Thread.CurrentThread.Abort();
                 }
+            }
+        }
+
+        private void Draw(object[] stringArray)
+        {
+            using (Graphics graphics = Graphics.FromImage(DrawBox.Image))
+            {
+                graphics.DrawLine(new Pen(Color.Black, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
             }
         }
     }
