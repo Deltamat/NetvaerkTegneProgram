@@ -23,10 +23,10 @@ namespace TegneServer
         [STAThread]
         static void Main()
         {
+            TCPServer(13000);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Server());
-            TCPServer(13000);
         }
 
         private static void TCPServer(int port)

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Sockets;
 
 namespace NetværkTegneProgram
 {
@@ -18,11 +19,6 @@ namespace NetværkTegneProgram
         public Client()
         {
             InitializeComponent();
-        }
-
-        private void DrawBox_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void DrawBox_MouseDown(object sender, MouseEventArgs e)
@@ -55,6 +51,25 @@ namespace NetværkTegneProgram
         {
             isMouseDown = false;
             originPoint = Point.Empty;
+        }
+
+        private void ConnectButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Int32 port = 13000;
+                TcpClient client = new TcpClient(IPTextBox.Text, port);
+                ConnectButton.Visible = false;
+                ConnectButton.Enabled = false;
+                EnterIPLabel.Visible = false;
+                EnterIPLabel.Enabled = false;
+                IPTextBox.Visible = false;
+                IPTextBox.Enabled = false;
+            }
+            catch (Exception)
+            {
+                EnterIPLabel.Text = "Please enter a valid IP address";
+            }
         }
     }
 }
