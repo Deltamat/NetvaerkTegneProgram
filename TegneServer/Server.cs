@@ -27,6 +27,7 @@ namespace TegneServer
         };
         private static List<Color> AvailableColors = new List<Color>();
         Random rng = new Random();
+        public HashSet<StreamWriter> streamWriters = new HashSet<StreamWriter>();
 
         public Server()
         {
@@ -73,6 +74,7 @@ namespace TegneServer
             Thread.CurrentThread.Name = localPoint.Address.ToString();
             bool clientConnected = true;
             string data;
+            streamWriters.Add(streamWriter);
 
             while (clientConnected)
             {
@@ -98,9 +100,17 @@ namespace TegneServer
             {
                 graphics.DrawLine(new Pen(clientColor, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
             }
+            foreach (StreamWriter streamWriter in streamWriters)
+            {
+                string dataString = stringArray[0] + "." + stringArray[1] + "." + stringArray[2] + "." + stringArray[3];
+                streamWriter.WriteLine(dataString);
+                streamWriter.Flush();
+            }
             DrawBox.Invalidate();
             ImageConverter converter = new ImageConverter();
             byte[] array = (byte[])converter.ConvertTo(DrawBox.Image, typeof(byte[]));
         }
+
+
     }
 }
