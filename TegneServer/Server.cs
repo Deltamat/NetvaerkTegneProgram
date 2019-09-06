@@ -99,6 +99,8 @@ namespace TegneServer
                 graphics.DrawLine(new Pen(clientColor, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
             }
             DrawBox.Invalidate();
+            ImageConverter converter = new ImageConverter();
+            byte[] array = (byte[])converter.ConvertTo(DrawBox.Image, typeof(byte[]));
         }
     }
 }

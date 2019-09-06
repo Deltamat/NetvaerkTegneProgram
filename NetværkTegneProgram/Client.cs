@@ -56,7 +56,10 @@ namespace NetværkTegneProgram
             {
                 Int32 port = 13000;
                 TcpClient client = new TcpClient();
-                EnterIPLabel.Text = "Attempting to connect...";
+                if (IPTextBox.Text.ToLower() == "l" || IPTextBox.Text.ToLower() == "local")
+                {
+                    IPTextBox.Text = "127.0.0.1";                    
+                }
                 client.Connect(IPAddress.Parse(IPTextBox.Text), port);
                 NetworkStream networkStream = client.GetStream();
                 streamWriter = new StreamWriter(networkStream, Encoding.ASCII);
