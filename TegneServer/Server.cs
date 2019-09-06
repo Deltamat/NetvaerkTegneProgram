@@ -22,7 +22,7 @@ namespace TegneServer
         private static List<Color> ColorList = new List<Color>()
         {
             Color.AliceBlue, Color.Aquamarine, Color.Beige, Color.Black, Color.BlueViolet, Color.BurlyWood, Color.Chartreuse, Color.Cornsilk, Color.Crimson, Color.Cyan, Color.DarkGoldenrod,
-            Color.DarkKhaki, Color.DarkMagenta, Color.DarkSalmon, Color.DarkTurquoise, Color.DeepPink, Color.Firebrick, Color.ForestGreen, Color.Gainsboro, Color.Honeydew, Color.LavenderBlush,
+            Color.DarkKhaki, Color.DarkMagenta, Color.DarkSalmon, Color.DarkTurquoise, Color.DeepPink, Color.Firebrick, Color.ForestGreen, Color.Plum, Color.Honeydew, Color.Peru,
             Color.HotPink
         };
         private static List<Color> AvailableColors = new List<Color>();
@@ -84,9 +84,6 @@ namespace TegneServer
                     Delegate invoke = new Action(() => Draw(stringArray, clientColor));
 
                     Invoke(invoke);
-                        
-                    
-                    DrawBox.Invalidate();
                 }
                 catch (Exception e)
                 {
@@ -101,6 +98,7 @@ namespace TegneServer
             {
                 graphics.DrawLine(new Pen(clientColor, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
             }
+            DrawBox.Invalidate();
         }
     }
 }

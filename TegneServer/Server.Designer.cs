@@ -34,19 +34,20 @@
             // 
             // DrawBox
             // 
-            this.DrawBox.Location = new System.Drawing.Point(12, 12);
+            this.DrawBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.DrawBox.Location = new System.Drawing.Point(9, 10);
+            this.DrawBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.DrawBox.Name = "DrawBox";
-            this.DrawBox.Size = new System.Drawing.Size(1043, 530);
+            this.DrawBox.Size = new System.Drawing.Size(782, 431);
             this.DrawBox.TabIndex = 0;
             this.DrawBox.TabStop = false;
             // 
             // Server
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.DrawBox);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Server";
             this.Text = "Server";
             ((System.ComponentModel.ISupportInitialize)(this.DrawBox)).EndInit();
