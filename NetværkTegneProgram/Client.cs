@@ -56,7 +56,8 @@ namespace NetværkTegneProgram
             try
             {
                 Int32 port = 13000;
-                client = new TcpClient();
+                TcpClient client = new TcpClient();
+                EnterIPLabel.Text = "Attempting to connect...";
                 client.Connect(IPAddress.Parse(IPTextBox.Text), port);
                 NetworkStream networkStream = client.GetStream();
                 streamWriter = new StreamWriter(networkStream, Encoding.ASCII);
@@ -72,10 +73,12 @@ namespace NetværkTegneProgram
                 EnterIPLabel.Enabled = false;
                 IPTextBox.Visible = false;
                 IPTextBox.Enabled = false;
+                DrawBox.Visible = true;
+                DrawBox.Enabled = true;
             }
             catch (Exception)
             {
-                EnterIPLabel.Text = "Please enter a valid IP address";
+                EnterIPLabel.Text = "Could not connect to IP address";
             }
         }
 
