@@ -21,12 +21,12 @@ namespace NetværkTegneProgram
         TcpClient client;
         StreamWriter streamWriter;
         StreamReader streamReader;
+        private bool eraserOn = false;
 
         public Client()
         {
             InitializeComponent();
             DrawBox.Image = new Bitmap(DrawBox.Width, DrawBox.Height);
-            
         }
 
         private void DrawBox_MouseDown(object sender, MouseEventArgs e)
@@ -43,6 +43,18 @@ namespace NetværkTegneProgram
 
                 DrawBox.Invalidate();
                 originPoint = e.Location;
+            }
+        }
+
+        private void Client_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape && eraserOn == false)
+            {
+                eraserOn = true;
+            }
+            else if (e.KeyCode == Keys.Escape && eraserOn == true)
+            {
+                eraserOn = false;
             }
         }
 
@@ -103,7 +115,7 @@ namespace NetværkTegneProgram
 
         private void SendData(string originX, string originY, string locationX, string locationY)
         {
-            string sendString = originX + "." + originY + "." + locationX + "." + locationY;
+            string sendString = originX + "." + originY + "." + locationX + "." + locationY + "." + eraserOn.ToString();
             streamWriter.WriteLine(sendString);
             Thread.Sleep(1);
             streamWriter.Flush();
@@ -133,7 +145,14 @@ namespace NetværkTegneProgram
         {
             using (Graphics graphics = Graphics.FromImage(DrawBox.Image))
             {
-                graphics.DrawLine(new Pen(Color.FromName((string)stringArray[4]), 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
+                //if (eraserOn)
+                //{
+                //    graphics.DrawLine(new Pen(Color.White, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
+                //}
+                //else
+                //{
+                    graphics.DrawLine(new Pen(Color.FromName((string)stringArray[4]), 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
+                //}
             }
             DrawBox.Invalidate();
         }

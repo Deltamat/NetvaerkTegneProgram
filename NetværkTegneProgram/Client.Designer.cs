@@ -86,9 +86,11 @@
             this.Controls.Add(this.ConnectButton);
             this.Controls.Add(this.IPTextBox);
             this.Controls.Add(this.DrawBox);
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Client";
             this.Text = "Client";
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Client_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.DrawBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

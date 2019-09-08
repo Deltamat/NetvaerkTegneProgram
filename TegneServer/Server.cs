@@ -115,15 +115,31 @@ namespace TegneServer
         {
             using (Graphics graphics = Graphics.FromImage(DrawBox.Image))
             {
-                graphics.DrawLine(new Pen(clientColor, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
+                if (stringArray[4].ToString() == "True")
+                {
+                    graphics.DrawLine(new Pen(Color.White, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
+                }
+                else
+                {
+                    graphics.DrawLine(new Pen(clientColor, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
+                }
             }
 
             foreach (StreamWriter streamWriter in streamWriters)
             {
-                string dataString = stringArray[0] + "." + stringArray[1] + "." + stringArray[2] + "." + stringArray[3] + "." + clientColor.Name;
-                streamWriter.WriteLine(dataString);
+                if (stringArray[4].ToString() == "True")
+                {
+                    string dataString = stringArray[0] + "." + stringArray[1] + "." + stringArray[2] + "." + stringArray[3] + "." + Color.White.Name;
+                    streamWriter.WriteLine(dataString);
+                }
+                else
+                {
+                    string dataString = stringArray[0] + "." + stringArray[1] + "." + stringArray[2] + "." + stringArray[3] + "." + clientColor.Name;
+                    streamWriter.WriteLine(dataString);
+                }
                 Thread.Sleep(1);
                 streamWriter.Flush();
+
             }
             DrawBox.Invalidate();
         }
