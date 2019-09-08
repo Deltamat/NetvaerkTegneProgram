@@ -122,8 +122,6 @@ namespace TegneServer
             {
                 string dataString = stringArray[0] + "." + stringArray[1] + "." + stringArray[2] + "." + stringArray[3] + "." + clientColor.Name;
                 streamWriter.WriteLine(dataString);
-                //streamWriter.Flush();
-                //streamWriter.WriteLine(clientColor.ToString());
                 Thread.Sleep(1);
                 streamWriter.Flush();
             }
