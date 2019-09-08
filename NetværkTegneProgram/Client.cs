@@ -67,6 +67,21 @@ namespace NetværkTegneProgram
                 streamWriter = new StreamWriter(networkStream, Encoding.ASCII);
                 streamReader = new StreamReader(networkStream, Encoding.ASCII);
 
+
+                // create a buffer for the incomming datastream
+                byte[] imageBuffer = new byte[100000];
+                int lenghtOfStream = networkStream.Read(imageBuffer, 0, imageBuffer.Length);
+                // resize the array to the size of the datastream
+                Array.Resize(ref imageBuffer, lenghtOfStream);
+                // make the datastream into a memorystream that can be converted to a bitmap
+                MemoryStream ms = new MemoryStream(imageBuffer);
+                // convert to bitmap
+                using (Graphics graphics = Graphics.FromImage(DrawBox.Image))
+                {
+                    DrawBox.Image = Image.FromStream(ms);
+                }
+
+
                 Thread t = new Thread(GetBitMap);
                 t.IsBackground = true;
                 t.Start();
@@ -109,7 +124,7 @@ namespace NetværkTegneProgram
                 }
                 catch (Exception)
                 {
-                    throw;
+                    //throw;
                 }
             }
         }

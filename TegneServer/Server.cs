@@ -11,6 +11,7 @@ using System.Threading;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Drawing.Imaging;
 
 namespace TegneServer
 {
@@ -69,12 +70,28 @@ namespace TegneServer
             TcpClient client = (TcpClient)obj;
             StreamWriter streamWriter = new StreamWriter(client.GetStream());
             StreamReader streamReader = new StreamReader(client.GetStream());
+            NetworkStream networkStream = client.GetStream();
             IPEndPoint endPoint = (IPEndPoint)client.Client.RemoteEndPoint;
             IPEndPoint localPoint = (IPEndPoint)client.Client.LocalEndPoint;
             Thread.CurrentThread.Name = localPoint.Address.ToString();
             bool clientConnected = true;
             string data;
             streamWriters.Add(streamWriter);
+
+            // send server-side bitmap to clients that join
+            using (MemoryStream imageStream = new MemoryStream())
+            {
+                // Save bitmap in a format.
+                DrawBox.Image.Save(imageStream, ImageFormat.Png);
+                imageStream.Position = 0;
+
+                // convert imagestream to array
+                byte[] imageBytes = imageStream.ToArray();
+
+                // send the array to the client
+                networkStream.Write(imageBytes, 0, imageBytes.Length);
+                networkStream.Flush();
+            }
 
             while (clientConnected)
             {
@@ -89,6 +106,7 @@ namespace TegneServer
                 }
                 catch (Exception e)
                 {
+                    streamWriters.Remove(streamWriter);
                     Thread.CurrentThread.Abort();
                 }
             }
