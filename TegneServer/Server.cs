@@ -99,7 +99,6 @@ namespace TegneServer
                 {
                     data = streamReader.ReadLine();
                     string[] stringArray = data.Split('.');
-
                     Delegate invoke = new Action(() => Draw(stringArray, clientColor));
 
                     Invoke(invoke);
@@ -121,8 +120,10 @@ namespace TegneServer
 
             foreach (StreamWriter streamWriter in streamWriters)
             {
-                string dataString = stringArray[0] + "." + stringArray[1] + "." + stringArray[2] + "." + stringArray[3];
+                string dataString = stringArray[0] + "." + stringArray[1] + "." + stringArray[2] + "." + stringArray[3] + "." + clientColor.Name;
                 streamWriter.WriteLine(dataString);
+                //streamWriter.Flush();
+                //streamWriter.WriteLine(clientColor.ToString());
                 Thread.Sleep(1);
                 streamWriter.Flush();
             }

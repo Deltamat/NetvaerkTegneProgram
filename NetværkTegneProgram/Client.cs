@@ -117,7 +117,7 @@ namespace NetværkTegneProgram
                 {
                     string data = streamReader.ReadLine();
                     string[] stringArray = data.Split('.');
-                    
+
                     Delegate invoke = new Action(() => Draw(stringArray));
 
                     Invoke(invoke);
@@ -133,7 +133,7 @@ namespace NetværkTegneProgram
         {
             using (Graphics graphics = Graphics.FromImage(DrawBox.Image))
             {
-                graphics.DrawLine(new Pen(Color.Black, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
+                graphics.DrawLine(new Pen(Color.FromName((string)stringArray[4]), 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
             }
             DrawBox.Invalidate();
         }
