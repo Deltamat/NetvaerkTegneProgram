@@ -145,14 +145,7 @@ namespace NetværkTegneProgram
         {
             using (Graphics graphics = Graphics.FromImage(DrawBox.Image))
             {
-                //if (eraserOn)
-                //{
-                //    graphics.DrawLine(new Pen(Color.White, 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
-                //}
-                //else
-                //{
-                    graphics.DrawLine(new Pen(Color.FromName((string)stringArray[4]), 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
-                //}
+                graphics.DrawLine(new Pen(Color.FromName((string)stringArray[4]), 1), new Point(Convert.ToInt32(stringArray[0]), Convert.ToInt32(stringArray[1])), new Point(Convert.ToInt32(stringArray[2]), Convert.ToInt32(stringArray[3])));
             }
             DrawBox.Invalidate();
         }
