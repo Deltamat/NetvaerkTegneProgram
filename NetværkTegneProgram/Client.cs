@@ -78,8 +78,7 @@ namespace NetværkTegneProgram
                 NetworkStream networkStream = client.GetStream();
                 streamWriter = new StreamWriter(networkStream, Encoding.ASCII);
                 streamReader = new StreamReader(networkStream, Encoding.ASCII);
-
-
+                
                 // create a buffer for the incomming datastream
                 byte[] imageBuffer = new byte[100000];
                 int lenghtOfStream = networkStream.Read(imageBuffer, 0, imageBuffer.Length);
@@ -92,8 +91,7 @@ namespace NetværkTegneProgram
                 {
                     DrawBox.Image = Image.FromStream(ms);
                 }
-
-
+                
                 Thread t = new Thread(GetBitMap);
                 t.IsBackground = true;
                 t.Start();
@@ -115,10 +113,17 @@ namespace NetværkTegneProgram
 
         private void SendData(string originX, string originY, string locationX, string locationY)
         {
-            string sendString = originX + "." + originY + "." + locationX + "." + locationY + "." + eraserOn.ToString();
-            streamWriter.WriteLine(sendString);
-            Thread.Sleep(1);
-            streamWriter.Flush();
+            try
+            {
+                string sendString = originX + "." + originY + "." + locationX + "." + locationY + "." + eraserOn.ToString();
+                streamWriter.WriteLine(sendString);
+                Thread.Sleep(1);
+                streamWriter.Flush();
+            }
+            catch (Exception)
+            {
+                Close();
+            }
         }
 
         private void GetBitMap()
